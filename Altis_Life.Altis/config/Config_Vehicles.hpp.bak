@@ -1,0 +1,486 @@
+class CarShops {
+    /*
+    *    ARRAY FORMAT:
+    *        0: STRING (Classname)
+    *        1: ARRAY (This is for limiting items to certain things)
+    *            0: Variable to read from
+    *            1: Variable Value Type (SCALAR / BOOL /EQUAL)
+    *            2: What to compare to (-1 = Check Disabled)
+    *
+    *   BLUFOR Vehicle classnames can be found here: https://community.bistudio.com/wiki/Arma_3_CfgVehicles_WEST
+    *   OPFOR Vehicle classnames can be found here: https://community.bistudio.com/wiki/Arma_3_CfgVehicles_EAST
+    *   Independent Vehicle classnames can be found here: https://community.bistudio.com/wiki/Arma_3_CfgVehicles_GUER
+    *   Civilian Vehicle classnames can be found here: https://community.bistudio.com/wiki/Arma_3_CfgVehicles_CIV
+    */
+    class civ_car {
+        side = "civ";
+        vehicles[] = {
+            { "shounka_c4_p_orange", { "", "", -1 } },
+            { "shounka_transam", { "", "", -1 } },
+            { "Mrshounka_raptor_civ", { "", "", -1 } },
+            { "Mrshouka_fordgt_p", { "", "", -1 } },
+            { "Mrshounka_c4_p", { "", "", -1 } },
+            { "Mrshounka_veneno_c", { "", "", -1 } }
+        };
+    };
+
+    class kart_shop {
+        side = "civ";
+        vehicles[] = {
+            { "C_Kart_01_Blu_F", { "", "", -1 } },
+            { "C_Kart_01_Fuel_F", { "", "", -1 } },
+            { "C_Kart_01_Red_F", { "", "", -1 } },
+            { "C_Kart_01_Vrana_F", { "", "", -1 } }
+        };
+    };
+
+    class civ_truck {
+        side = "civ";
+        vehicles[] = {
+            { "Mrshounka_Vandura_civ", { "", "", -1 } },
+            { "shounka_h2_grise", { "", "", -1 } },
+            { "I_Truck_02_covered_F", { "", "", -1 } },
+            { "B_Truck_01_transport_F", { "", "", -1 } },
+            { "Mrshouka_fordgt_p", { "", "", -1 } },
+            { "O_Truck_03_covered_F", { "", "", -1 } },
+            { "Mrshounka_c4_p", { "", "", -1 } },
+            { "Mrshounka_raptor_p", { "", "", -1 } },
+            { "C_Van_01_fuel_F", { "", "", -1 } },
+            { "I_Truck_02_fuel_F", { "", "", -1 } },
+            { "shounka_ivceco_grise", { "", "", -1 } }
+        };
+    };
+
+    class civ_air {
+        side = "civ";
+        vehicles[] = {
+            { "C_Heli_Light_01_civil_F", { "", "", -1 } },
+            { "O_Heli_Light_02_unarmed_F", { "", "", -1 } }
+        };
+    };
+
+     class civ_ship {
+        side = "civ";
+        vehicles[] = {
+            { "C_Rubberboat", { "", "", -1 } },
+            { "C_Boat_Civil_01_F", { "", "", -1 } },
+            { "B_SDV_01_F", { "", "", -1 } }
+        };
+    };
+
+    class reb_car {
+        side = "civ";
+        vehicles[] = {
+            { "shounka_gt_noir", { "", "", -1 } },
+            { "Mrshounka_cherokee_noir_mat", { "", "", -1 } },
+            { "Mrshounka_lykan_c_noir", { "", "", -1 } },
+            { "B_Heli_Light_01_stripped_F", { "", "", -1 } },
+            { "Mrshounka_Bowler_c_noir", { "", "", -1 } }
+        };
+    };
+
+    class med_shop {
+        side = "med";
+        vehicles[] = {
+            { "Mrshounka_raptor_p", { "", "", -1 } },
+            { "Mrshounka_cayenne_p_civ", { "", "", -1 } },
+            { "Mrshounka_corbillard_c_grise", { "", "", -1 } },
+            { "B_Truck_01_medical_F", { "", "", -1 } }
+        };
+    };
+
+    class med_air_hs {
+        side = "med";
+        vehicles[] = {
+            { "I_Heli_Light_03_unarmed_F", { "", "", -1 } },
+            { "O_Heli_Light_02_unarmed_F", { "", "", -1 } }
+        };
+    };
+
+    class cop_car {
+        side = "cop";
+        vehicles[] = {
+            { "Mrshounka_a3_308_gend", { "", "", -1 } },
+            { "shounka_a3_audiq7_v2_gendarmeri", { "", "", -1 } },
+            { "Mrshounka_bmw_gend", { "life_coplevel", "SCALAR", 1 } },
+            { "Mrshounka_evox_gend", { "life_coplevel", "SCALAR", 2 } },
+            { "Mrshounka_agera_gen_p", { "life_coplevel", "SCALAR", 3 } }
+        };
+    };
+
+    class cop_air {
+        side = "cop";
+        vehicles[] = {
+            { "b_Heli_light_01_f", { "", "", -1 } },
+            { "b_Heli_transport_03__unarmed_F", { "life_coplevel", "SCALAR", 3 } }
+        };
+    };
+
+    class cop_ship {
+        side = "cop";
+        vehicles[] = {
+            { "B_Boat_Transport_01_F", { "", "", -1 } },
+            { "C_Boat_Civil_01_police_F", { "", "", -1 } },
+            { "B_Boat_Armed_01_minigun_F", { "life_coplevel", "SCALAR", 3 } },
+            { "B_SDV_01_F", { "", "", -1 } }
+        };
+    };
+};
+
+class LifeCfgVehicles {
+    /*
+    *    Vehicle Configs (Contains textures and other stuff)
+    *
+    *    "price" is the price before any multipliers set in Master_Config are applied.
+    *
+    *    Default Multiplier Values & Calculations:
+    *       Civilian [Purchase, Sell]: [1.0, 0.5]
+    *       Cop [Purchase, Sell]: [0.5, 0.5]
+    *       Medic [Purchase, Sell]: [0.75, 0.5]
+    *       ChopShop: Payout = price * 0.25
+    *       GarageSell: Payout = price * [0.5, 0.5, 0.5, -1]
+    *       Cop Impound: Payout = price * 0.1
+    *       Pull Vehicle from Garage: Cost = price * [1, 0.5, 0.75, -1] * [0.5, 0.5, 0.5, -1]
+    *           -- Pull Vehicle & GarageSell Array Explanation = [civ,cop,medic,east]
+    *
+    *       1: ARRAY (license required)
+    *         Ex: { "driver", "" , "" , "" } //civilian, west, independent, east
+    *         licenses[] = { {"CIV"}, {"COP"}, {"MEDIC"}, {"EAST"} };
+    *    Textures config follows { Texture Name, side, {texture(s)path}}
+    *    Texture(s)path follows this format:
+    *    INDEX 0: Texture Layer 0
+    *    INDEX 1: Texture Layer 1
+    *    INDEX 2: Texture Layer 2
+    *    etc etc etc
+    *
+    */
+
+    class Default {
+        vItemSpace = -1;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = -1;
+        textures[] = {};
+    };
+//22222222222222222222222222222222222222222222222222222222222222222222
+	class police_light_heli {
+        vItemSpace = 150;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 25000;
+        textures[] = {};
+    };
+	
+	class police_heavy_heli {
+        vItemSpace = 150;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 25000;
+        textures[] = {};
+    };
+	
+	
+	class Mrshounka_cayenne_p_civ {
+        vItemSpace = 150;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 200;
+        textures[] = {};
+    };
+	
+		class shounka_c4_p_orange {
+        vItemSpace = 150;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 25000;
+        textures[] = {};
+    };
+	
+	
+		class shounka_gt_noir {
+        vItemSpace = 150;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 25000;
+        textures[] = {};
+    };
+	
+	
+	//222222222222222222222222222222222222222222222222222222222222222222
+  
+
+    class Mrshounka_corbillard_c_grise {
+        vItemSpace = 200;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 45000;
+        textures[] = {};
+    };
+
+    class B_Truck_01_medical_F {
+        vItemSpace = 250;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 60000;
+        textures[] = {};
+    };
+
+    class C_Rubberboat {
+        vItemSpace = 45;
+        licenses[] = { {"boat"}, {""}, {""}, {""} };
+        price = 5000;
+        textures[] = { };
+    };
+
+    class B_Heli_Transport_01_F {
+        vItemSpace = 200;
+        licenses[] = { {""}, {"cAir"}, {""}, {""} };
+        price = 200000;
+        textures[] = {};
+    };
+
+
+
+    class B_Boat_Armed_01_minigun_F {
+        vItemSpace = 175;
+        licenses[] = { {""}, {"cg"}, {""}, {""} };
+        price = 75000;
+        textures[] = { };
+    };
+
+    class B_Boat_Transport_01_F {
+        vItemSpace = 45;
+        licenses[] = { {""}, {"cg"}, {""}, {""} };
+        price = 3000;
+        textures[] = { };
+    };
+
+    class O_Truck_03_transport_F {
+        vItemSpace = 285;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 200000;
+        textures[] = { };
+    };
+
+    class O_Truck_03_device_F {
+        vItemSpace = 350;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 450000;
+        textures[] = { };
+    };
+
+    class Land_CargoBox_V1_F {
+        vItemSpace = 5000;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = -1;
+        textures[] = {};
+    };
+
+    class Box_IND_Grenades_F {
+        vItemSpace = 350;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = -1;
+        textures[] = {};
+    };
+
+    class B_supplyCrate_F {
+        vItemSpace = 700;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = -1;
+        textures[] = {};
+    };
+
+    class Mrshounka_cherokee_noir_mat {
+        vItemSpace = 65;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 12500;
+        textures[] = { };
+    };
+
+    class Mrshounka_Bowler_c_rouge {
+        vItemSpace = 65;
+        licenses[] = { {"rebel"}, {""}, {""}, {""} };
+        price = 750000;
+        textures[] = { };
+    };
+
+    class C_Boat_Civil_01_F {
+        vItemSpace = 85;
+        licenses[] = { {"boat"}, {""}, {""}, {""} };
+        price = 22000;
+        textures[] = { };
+    };
+
+    class C_Boat_Civil_01_police_F {
+        vItemSpace = 85;
+        licenses[] = { {""}, {"cg"}, {""}, {""} };
+        price = 20000;
+        textures[] = { };
+    };
+
+    class B_Truck_01_box_F {
+        vItemSpace = 450;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 350000;
+        textures[] = { };
+    };
+
+    class B_Truck_01_transport_F {
+        vItemSpace = 325;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 275000;
+        textures[] = { };
+    };
+
+    class Mrshounka_lykan_c_noir {
+        vItemSpace = 60;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 150000;
+        textures[] = { };
+    };
+
+    class Mrshounka_raptor_p {
+        vItemSpace = 65;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 12500;
+    };
+
+    class C_Kart_01_Blu_F {
+        vItemSpace = 20;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 15000;
+        textures[] = {};
+    };
+/*
+To edit another information in this classes you can use this exemple.
+class C_Kart_01_Fuel_F : C_Kart_01_Blu_F{
+    vItemSpace = 40;
+    price = ;
+};
+
+will modify the virtual space and the price of the vehicle, but other information such as license and textures will pick up the vehicle declare at : Vehicle {};
+*/
+    class C_Kart_01_Fuel_F : C_Kart_01_Blu_F{}; // Get all information of C_Kart_01_Blu_F
+    class C_Kart_01_Red_F  : C_Kart_01_Blu_F{};
+    class C_Kart_01_Vrana_F : C_Kart_01_Blu_F{};
+
+    class Mrshounka_c4_p {
+        vItemSpace = 45;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 40000;
+      
+        
+    };
+
+    class Mrshounka_yamaha_p {
+        vItemSpace = 25;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 2500;
+
+        
+    };
+
+    class I_Truck_02_covered_F {
+        vItemSpace = 250;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 100000;
+      
+    };
+
+    class shounka_h2_grise {
+        vItemSpace = 200;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 75000;
+       
+      
+    };
+
+    class O_Truck_03_covered_F {
+        vItemSpace = 300;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 250000;
+        textures[] = {};
+    };
+
+    class shounka_transam {
+        vItemSpace = 40;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 9500;
+       
+    };
+
+    class Mrshouka_fordgt_p {
+        vItemSpace = 50;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 30000;
+      
+    };
+
+    class Mrshounka_veneno_c {
+        vItemSpace = 10;
+        licenses[] = { {"driver"}, {""}, {""}, {""} };
+        price = 9999999;
+    };
+	
+
+	
+
+    class Mrshounka_Vandura_civ {
+        vItemSpace = 150;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 60000;
+      
+    };
+
+  
+     class B_Heli_Light_01_stripped_F {
+        vItemSpace = 90;
+        licenses[] = { {""}, {""}, {""}, {""} };
+        price = 275000;
+       
+    };
+
+ 
+
+    class C_Heli_Light_01_civil_F {
+        vItemSpace = 75;
+        price = 245000;
+    };
+
+    class O_Heli_Light_02_unarmed_F {
+        vItemSpace = 210;
+        licenses[] = { {"pilot" }, {""}, {"mAir"}, {""} };
+        price = 750000;
+       
+    };
+
+	    class B_Heli_transport_03__unarmed_F {
+        vItemSpace = 210;
+        licenses[] = { {"pilot" }, {""}, {"mAir"}, {""} };
+        price = 7500000;
+       
+    };
+	
+    class B_SDV_01_F {
+        vItemSpace = 50;
+        licenses[] = { {"boat"}, {"cg"}, {""}, {""} };
+        price = 150000;
+        textures[] = {};
+    };
+
+        class C_Van_01_fuel_F {
+        vItemSpace = 20;
+        vFuelSpace = 19500;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 120000;
+      
+    };
+
+    class I_Truck_02_fuel_F {
+        vItemSpace = 40;
+        vFuelSpace = 42000;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 200000;
+     
+    };
+
+    class shounka_ivceco_grise {
+        vItemSpace = 50;
+        vFuelSpace = 50000;
+        licenses[] = { {"trucking"}, {""}, {""}, {""} };
+        price = 250000;
+        textures[] = {};
+    };
+};
